@@ -1,12 +1,13 @@
 import { onSnapshot } from "firebase/firestore";
 import React from "react";
-import { connect, disp } from "react-redux";
+import { connect } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 
 import "./App.css";
 
 import Header from "./components/header/header.component";
 import SignInAndSignUp from "./components/sign-in-and-sign-up/sign-in-and-sign-up.component";
+import PrivateRoute from "./components/private-route/private-route.component";
 
 import createUser from "./firebase/create-user";
 import { auth } from "./firebase/firebase.utils";
@@ -25,7 +26,6 @@ class App extends React.Component {
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await createUser(userAuth);
-        console.log(userAuth);
         this.userSnapShot = onSnapshot(userRef, (doc) => {
           setCurrentUser({ id: doc.id, ...doc.data() });
         });
@@ -44,13 +44,19 @@ class App extends React.Component {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/shop" element={<Shop />} />
-          <Route path="/signin" element={<SignInAndSignUp />} />
+          <Route
+            path="/signin"
+            element={
+              <PrivateRoute>
+                <SignInAndSignUp />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </div>
     );
   }
 }
-
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
