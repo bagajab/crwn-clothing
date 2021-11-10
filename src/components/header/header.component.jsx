@@ -14,6 +14,9 @@ const Header = ({ currentUser, hidden }) => (
     <Link className="logo-contnaier" to="/">
       <Logo className="logo" />
     </Link>
+    <b>
+      <p>{currentUser ? currentUser.displayName : ""}</p>
+    </b>
     <div className="options">
       <Link className="option" to="/shop">
         Shop
@@ -33,7 +36,7 @@ const Header = ({ currentUser, hidden }) => (
       )}
       <CartItem />
     </div>
-    { hidden ? null : <CartDropdown />}
+    {hidden ? null : <CartDropdown />}
   </div>
 );
 
