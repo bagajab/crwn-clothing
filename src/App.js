@@ -19,14 +19,13 @@ import { selectCurrentUser } from "./redux/user/user.selectors";
 import { createStructuredSelector } from "reselect";
 import Checkout from "./pages/checkout/checkout.component";
 import { selectCollectionForPreview } from "./redux/shop/shop.selectors";
-import { addCollectionAndDocuments } from "./firebase/add-collection-and-document";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
   userSnapShot = null;
 
   componentDidMount() {
-    const { setCurrentUser, collectionArray } = this.props;
+    const { setCurrentUser } = this.props;
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
