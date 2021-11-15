@@ -19,9 +19,6 @@ const Header = ({ currentUser, hidden }) => (
     <LogoContainer to="/">
       <Logo className="logo" />
     </LogoContainer>
-    <b>
-      <p>{currentUser ? currentUser.displayName : ""}</p>
-    </b>
     <OptionsContainer>
       <OptionLink to="/shop">Shop</OptionLink>
       <OptionLink to="/contact">Contact</OptionLink>

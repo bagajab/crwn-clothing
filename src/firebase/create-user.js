@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "./firebase.utils";
 
 const createUser = async (userAuth, additionalInfo = {}) => {
@@ -7,7 +7,15 @@ const createUser = async (userAuth, additionalInfo = {}) => {
   const userRef = doc(db, "users", uid);
   const userSnap = await getDoc(userRef);
 
-  if (userSnap.exists())  return userRef;
+  // // TEST HERE
+  // const usersRef = collection(db, "users");
+  // const usersSnap = await getDocs(usersRef);
+  // console.log({ usersSnap });
+  // usersSnap.forEach((doc) => {
+  //   console.log(doc.id, " => ", doc.data());
+  // });
+
+  if (userSnap.exists()) return userRef;
 
   try {
     const { displayName, email } = userAuth;

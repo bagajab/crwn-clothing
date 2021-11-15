@@ -18,13 +18,15 @@ import setCurrentUser from "./redux/user/user.action";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { createStructuredSelector } from "reselect";
 import Checkout from "./pages/checkout/checkout.component";
+import { selectCollectionForPreview } from "./redux/shop/shop.selectors";
+import { addCollectionAndDocuments } from "./firebase/add-collection-and-document";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
   userSnapShot = null;
 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
+    const { setCurrentUser, collectionArray } = this.props;
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
@@ -34,11 +36,21 @@ class App extends React.Component {
         });
       } else setCurrentUser(userAuth);
     });
+
+    // UNCOMMENT BELOW LINE IF FIRESTORE SHOPS IS EMEPTY
+    // addCollectionAndDocuments(
+    //   "collections",
+    //   collectionArray.map(({ title, items }) => ({ title, items }))
+    // );
   }
 
   componentWillUnmount() {
-    this.unsubscribeFromAuth();
-    this.userSnapShot();
+    try {
+      this.unsubscribeFromAuth();
+      this.userSnapShot();
+    } catch (error) {
+      console.log(error);
+    }
   }
   render() {
     return (
@@ -67,6 +79,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
+  collectionArray: selectCollectionForPreview,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
