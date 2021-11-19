@@ -23,3 +23,11 @@ export const auth = getAuth();
 
 export const googleProvider = new GoogleAuthProvider();
 
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  });
+};

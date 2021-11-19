@@ -1,4 +1,3 @@
-import { onSnapshot } from "firebase/firestore";
 import React from "react";
 import { connect } from "react-redux";
 import { Route, Routes } from "react-router-dom";
@@ -9,48 +8,20 @@ import Header from "./components/header/header.component";
 import SignInAndSignUp from "./components/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import PrivateRoute from "./components/private-route/private-route.component";
 
-import createUser from "./firebase/create-user";
-import { auth } from "./firebase/firebase.utils";
-
 import Homepage from "./pages/homepage/homepage.component";
 import Shop from "./pages/shop/shop.component";
-import setCurrentUser from "./redux/user/user.action";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { createStructuredSelector } from "reselect";
 import Checkout from "./pages/checkout/checkout.component";
 import { selectCollectionForPreview } from "./redux/shop/shop.selectors";
+import { checkUserSession } from "./redux/user/user.action";
 
 class App extends React.Component {
-  unsubscribeFromAuth = null;
-  userSnapShot = null;
-
   componentDidMount() {
-    // const { setCurrentUser } = this.props;
-
-    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-    //   if (userAuth) {
-    //     const userRef = await createUser(userAuth);
-    //     this.userSnapShot = onSnapshot(userRef, (doc) => {
-    //       setCurrentUser({ id: doc.id, ...doc.data() });
-    //     });
-    //   } else setCurrentUser(userAuth);
-    // });
-
-    // UNCOMMENT BELOW LINE IF FIRESTORE SHOPS IS EMEPTY
-    // addCollectionAndDocuments(
-    //   "collections",
-    //   collectionArray.map(({ title, items }) => ({ title, items }))
-    // );
+    const { checkUserSession } = this.props;
+    checkUserSession();
   }
 
-  componentWillUnmount() {
-    try {
-      this.unsubscribeFromAuth();
-      this.userSnapShot();
-    } catch (error) {
-      console.log(error);
-    }
-  }
   render() {
     return (
       <div>
@@ -72,13 +43,14 @@ class App extends React.Component {
     );
   }
 }
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-});
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   collectionArray: selectCollectionForPreview,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  checkUserSession: () => dispatch(checkUserSession()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

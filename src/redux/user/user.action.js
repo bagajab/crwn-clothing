@@ -1,44 +1,64 @@
 import {
-  EMAIL_SIGN_IN_FAILURE,
+  CHECK_USER_SESSION,
   EMAIL_SIGN_IN_REQUEST,
-  EMAIL_SIGN_IN_SUCCESS,
-  GOOGLE_SIGN_IN_FAILURE,
   GOOGLE_SIGN_IN_REQUEST,
-  GOOGLE_SIGN_IN_SUCCESS,
-  SET_CURRENT_USER,
+  SIGN_IN_FAILURE,
+  SIGN_IN_SUCCESS,
+  SIGN_OUT_FAILURE,
+  SIGN_OUT_REQUEST,
+  SIGN_OUT_SUCCESS,
+  SIGN_UP_FAILURE,
+  SIGN_UP_REQUEST,
+  SIGN_UP_SUCCESS,
 } from "./user.types";
-
-const setCurrentUser = (user) => ({
-  type: SET_CURRENT_USER,
-  payload: user,
-});
 
 export const googleSignInRequest = () => ({
   type: GOOGLE_SIGN_IN_REQUEST,
 });
 
-export const googleSignInSuccess = (user) => ({
-  type: GOOGLE_SIGN_IN_SUCCESS,
-  payload: user,
-});
-
-export const googleSignInFailure = (error) => ({
-  type: GOOGLE_SIGN_IN_FAILURE,
-  payload: error,
-});
-
-export const emailSignInRequest = () => ({
+export const emailSignInRequest = (emailAndPassword) => ({
   type: EMAIL_SIGN_IN_REQUEST,
+  payload: emailAndPassword,
 });
 
-export const emailSignInSuccess = (user) => ({
-  type: EMAIL_SIGN_IN_SUCCESS,
+export const signInSuccess = (user) => ({
+  type: SIGN_IN_SUCCESS,
   payload: user,
 });
 
-export const emailSignInFailure = (error) => ({
-  type: EMAIL_SIGN_IN_FAILURE,
+export const signInFailure = (error) => ({
+  type: SIGN_IN_FAILURE,
   payload: error,
 });
 
-export default setCurrentUser;
+export const checkUserSession = () => ({
+  type: CHECK_USER_SESSION,
+});
+
+export const signOutRequest = () => ({
+  type: SIGN_OUT_REQUEST,
+});
+
+export const signOutSuccess = () => ({
+  type: SIGN_OUT_SUCCESS,
+});
+
+export const signOutFailure = (error) => ({
+  type: SIGN_OUT_FAILURE,
+  payload: error,
+});
+
+export const signUpRequest = (userCredentials) => ({
+  type: SIGN_UP_REQUEST,
+  payload: userCredentials,
+});
+
+export const signUpSuccess = ({ user, additionalData }) => ({
+  type: SIGN_UP_SUCCESS,
+  payload: { user, additionalData },
+});
+
+export const signUpFailure = (error) => ({
+  type: SIGN_UP_FAILURE,
+  payload: error,
+});
