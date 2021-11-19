@@ -6,15 +6,6 @@ const createUser = async (userAuth, additionalInfo = {}) => {
 
   const userRef = doc(db, "users", uid);
   const userSnap = await getDoc(userRef);
-
-  // // TEST HERE
-  // const usersRef = collection(db, "users");
-  // const usersSnap = await getDocs(usersRef);
-  // console.log({ usersSnap });
-  // usersSnap.forEach((doc) => {
-  //   console.log(doc.id, " => ", doc.data());
-  // });
-
   if (userSnap.exists()) return userRef;
 
   try {

@@ -25,16 +25,16 @@ class App extends React.Component {
   userSnapShot = null;
 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
+    // const { setCurrentUser } = this.props;
 
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
-        const userRef = await createUser(userAuth);
-        this.userSnapShot = onSnapshot(userRef, (doc) => {
-          setCurrentUser({ id: doc.id, ...doc.data() });
-        });
-      } else setCurrentUser(userAuth);
-    });
+    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+    //   if (userAuth) {
+    //     const userRef = await createUser(userAuth);
+    //     this.userSnapShot = onSnapshot(userRef, (doc) => {
+    //       setCurrentUser({ id: doc.id, ...doc.data() });
+    //     });
+    //   } else setCurrentUser(userAuth);
+    // });
 
     // UNCOMMENT BELOW LINE IF FIRESTORE SHOPS IS EMEPTY
     // addCollectionAndDocuments(
